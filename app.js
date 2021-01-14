@@ -4,7 +4,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { requestLogger, errorLogger } = require('./middlewares/logger.js');
 // routers imports
+const { createUser, login } = require('./controllers/user-controller.js');
 const userRouter = require('./routes/user-router.js');
+const articleRouter = require('./routes/article-router.js');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -22,9 +24,12 @@ mongoose.connect(
   },
 );
 app.use(bodyParser.json());
-
-app.use('/', userRouter);
-// app.user('/', articleRouter);
+// signup & login unprotected routes
+app.post('/signup', createUser);
+app.post('/signin', login);
+// general protected routes for users & articles
+// app.use('/users', userRouter);
+// app.user('/articles', articleRouter);
 
 app.use(errorLogger);
 // app.use(errors());
