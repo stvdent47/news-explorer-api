@@ -2,11 +2,13 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const { Joi, celebrate, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger.js');
 // routers imports
 const { createUser, login } = require('./controllers/user-controller.js');
 const userRouter = require('./routes/user-router.js');
 const articleRouter = require('./routes/article-router.js');
+const auth = require('./middlewares/auth.js');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -25,14 +27,33 @@ mongoose.connect(
 );
 app.use(bodyParser.json());
 // signup & login unprotected routes
-app.post('/signup', createUser);
-app.post('/signin', login);
+app.post(
+  '/signup',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required().min(8),
+      name: Joi.string().required().min(2).max(30),
+    }),
+  }),
+  createUser,
+);
+app.post(
+  '/signin',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required().min(8),
+    }),
+  }),
+  login,
+);
 // general protected routes for users & articles
-// app.use('/users', userRouter);
-// app.user('/articles', articleRouter);
-
+app.use('/users', auth, userRouter);
+app.use('/articles', auth, articleRouter);
+// errors handling
 app.use(errorLogger);
-// app.use(errors());
+app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode, message } = err;
   res.status(statusCode).send({

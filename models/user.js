@@ -3,11 +3,12 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const AuthError = require('../errors/AuthError.js');
+const { WRONG_CREDENTIALS_MESSAGE } = require('../utils/constants.js');
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, 'Поле "Email" обязательно для заполнения'],
     unique: true,
     validate: {
       validator(v) {
@@ -17,29 +18,30 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-    minlength: 8,
+    required: [true, 'Поле "Пароль" обязательно для заполнения'],
+    minlength: [8, 'Минимальная длина пароля — 8 символов'],
     select: false,
   },
   name: {
     type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 30,
+    required: [true, 'Поле "Имя" обязательно для заполнения'],
+    minlength: [2, 'Минимальная длина имени — 2 символа'],
+    maxlength: [30, 'Максимальная длина имени — 30 символов'],
   },
 });
 
+// eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new AuthError('Неправильные почта или пароль');
+        throw new AuthError(WRONG_CREDENTIALS_MESSAGE);
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new AuthError('Неправильные почта или пароль');
+            throw new AuthError(WRONG_CREDENTIALS_MESSAGE);
           }
 
           return user;

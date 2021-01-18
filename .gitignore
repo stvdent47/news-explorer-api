@@ -1,5 +1,7 @@
+# logs
 logs
-node_modules
-
-.env
 *.log
+# folders
+node_modules
+# etc.
+.env
