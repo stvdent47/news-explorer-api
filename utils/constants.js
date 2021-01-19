@@ -7,7 +7,7 @@ const AUTH_REQUIRED_MESSAGE = 'Необходима авторизация';
 const NOT_FOUND_MESSAGE = 'Запрашиваемый ресурс не найден';
 const WRONG_ARTICLE_ID_MESSAGE = 'Неверный идентификатор статьи';
 const ARTICLE_DELETION_FORBIDDEN_MESSAGE = 'Вы не можете удалять статьи, которые были добавлены не вами';
-const ARTICLE_ADDITION_SUCCES_MESSAGE = 'Статья была успешно сохранена';
+const ARTICLE_ADDITION_SUCCESS_MESSAGE = 'Статья была успешно сохранена';
 const MONGO_CONNECTION_SUCCESS_MESSAGE = 'База данных успешно подключена';
 const MONGO_CONNECTION_FAIL_MESSAGE = 'Ошибка подключения базы данных';
 
@@ -21,7 +21,7 @@ module.exports = {
   NOT_FOUND_MESSAGE,
   WRONG_ARTICLE_ID_MESSAGE,
   ARTICLE_DELETION_FORBIDDEN_MESSAGE,
-  ARTICLE_ADDITION_SUCCES_MESSAGE,
+  ARTICLE_ADDITION_SUCCESS_MESSAGE,
   MONGO_CONNECTION_SUCCESS_MESSAGE,
   MONGO_CONNECTION_FAIL_MESSAGE,
 };

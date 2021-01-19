@@ -24,7 +24,7 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log(MONGO_CONNECTION_SUCCESS_MESSAGE))
+  .then(console.log(MONGO_CONNECTION_SUCCESS_MESSAGE))
   .catch((err) => console.log(`${MONGO_CONNECTION_FAIL_MESSAGE}: ${err.message}`));
 
 const corsOptions = {
@@ -44,4 +44,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, console.log(`Example app listening on port ${PORT}!`));
