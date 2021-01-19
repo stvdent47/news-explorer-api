@@ -69,7 +69,10 @@ const login = (req, res, next) => {
 
 const getUserInfo = (req, res, next) => User.findById(req.user.id)
   .orFail(new NotFoundError(NOT_FOUND_MESSAGE))
-  .then((user) => res.status(200).send(user))
+  .then((user) => res.status(200).send({
+    name: user.name,
+    email: user.email,
+  }))
   .catch(next);
 
 module.exports = {

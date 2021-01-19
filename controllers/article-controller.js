@@ -1,6 +1,14 @@
 const Article = require('../models/article.js');
 const BadRequestError = require('../errors/BadRequestError.js');
-const { BAD_REQUEST_MESSAGE, UNIQUE_ARTICLE_ERROR_MESSAGE, NOT_FOUND_MESSAGE } = require('../utils/constants.js');
+const {
+  BAD_REQUEST_MESSAGE,
+  UNIQUE_ARTICLE_ERROR_MESSAGE,
+  NOT_FOUND_MESSAGE,
+  WRONG_ARTICLE_ID_MESSAGE,
+  ARTICLE_DELETION_FORBIDDEN_MESSAGE,
+  ARTICLE_ADDITION_SUCCES_MESSAGE,
+} = require('../utils/constants.js');
+const ForbiddenError = require('../errors/ForbiddenError.js');
 const NotFoundError = require('../errors/NotFoundError.js');
 const UniqueError = require('../errors/UniqueError.js');
 
@@ -39,7 +47,7 @@ const createArticle = (req, res, next) => {
         image,
         owner: req.user.id,
       })
-        .then(res.status(201).send({ message: 'Статья была успешно сохранена' }))
+        .then(res.status(201).send({ message: ARTICLE_ADDITION_SUCCES_MESSAGE }))
         .catch(next);
     })
     .catch(next);
@@ -52,9 +60,19 @@ const deleteArticle = (req, res, next) => {
     throw new BadRequestError(BAD_REQUEST_MESSAGE);
   }
 
-  return Article.findByIdAndDelete(articleId)
+  Article.findById(articleId).select('+owner')
     .orFail(new NotFoundError(NOT_FOUND_MESSAGE))
-    .then(res.status(200).send({ message: 'Статья была успешно удалена' }))
+    .then((article) => {
+      if (!article) throw new NotFoundError(WRONG_ARTICLE_ID_MESSAGE);
+
+      if (article.owner.toString() === req.user.id.toString()) {
+        Article.findByIdAndDelete(articleId)
+          .then(res.status(200).send({ message: ARTICLE_ADDITION_SUCCES_MESSAGE }))
+          .catch(next);
+      } else {
+        throw new ForbiddenError(ARTICLE_DELETION_FORBIDDEN_MESSAGE);
+      }
+    })
     .catch(next);
 };
 

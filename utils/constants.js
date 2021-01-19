@@ -5,6 +5,11 @@ const UNIQUE_ARTICLE_ERROR_MESSAGE = 'Статья с таким URL-адрес�
 const USER_CREATION_SUCCESS_MESSAGE = 'Пользователь успешно создан';
 const AUTH_REQUIRED_MESSAGE = 'Необходима авторизация';
 const NOT_FOUND_MESSAGE = 'Запрашиваемый ресурс не найден';
+const WRONG_ARTICLE_ID_MESSAGE = 'Неверный идентификатор статьи';
+const ARTICLE_DELETION_FORBIDDEN_MESSAGE = 'Вы не можете удалять статьи, которые были добавлены не вами';
+const ARTICLE_ADDITION_SUCCES_MESSAGE = 'Статья была успешно сохранена';
+const MONGO_CONNECTION_SUCCESS_MESSAGE = 'База данных успешно подключена';
+const MONGO_CONNECTION_FAIL_MESSAGE = 'Ошибка подключения базы данных';
 
 module.exports = {
   WRONG_CREDENTIALS_MESSAGE,
@@ -14,4 +19,9 @@ module.exports = {
   USER_CREATION_SUCCESS_MESSAGE,
   AUTH_REQUIRED_MESSAGE,
   NOT_FOUND_MESSAGE,
+  WRONG_ARTICLE_ID_MESSAGE,
+  ARTICLE_DELETION_FORBIDDEN_MESSAGE,
+  ARTICLE_ADDITION_SUCCES_MESSAGE,
+  MONGO_CONNECTION_SUCCESS_MESSAGE,
+  MONGO_CONNECTION_FAIL_MESSAGE,
 };
