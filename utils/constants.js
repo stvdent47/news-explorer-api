@@ -1,3 +1,6 @@
+const MONGO_URL_DEV = 'mongodb://localhost:27017/newsexplorer';
+const JWT_SECRET_DEV = 'dev-key';
+
 const WRONG_CREDENTIALS_MESSAGE = 'Неправильные почта или пароль';
 const BAD_REQUEST_MESSAGE = 'Переданные данные некорректны';
 const UNIQUE_USER_ERROR_MESSAGE = 'Пользователь с таким электронным адресом уже существует';
@@ -12,6 +15,8 @@ const MONGO_CONNECTION_SUCCESS_MESSAGE = 'База данных успешно �
 const MONGO_CONNECTION_FAIL_MESSAGE = 'Ошибка подключения базы данных';
 
 module.exports = {
+  MONGO_URL_DEV,
+  JWT_SECRET_DEV,
   WRONG_CREDENTIALS_MESSAGE,
   BAD_REQUEST_MESSAGE,
   UNIQUE_USER_ERROR_MESSAGE,

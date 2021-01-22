@@ -11,7 +11,7 @@ const rateLimiter = require('./middlewares/rateLimiter.js');
 
 const router = require('./routes/index.js');
 const errorHandler = require('./middlewares/errorHandler.js');
-const { MONGO_CONNECTION_SUCCESS_MESSAGE, MONGO_CONNECTION_FAIL_MESSAGE } = require('./utils/constants.js');
+const { MONGO_URL_DEV, MONGO_CONNECTION_SUCCESS_MESSAGE, MONGO_CONNECTION_FAIL_MESSAGE } = require('./utils/constants.js');
 
 const app = express();
 const { PORT = 3000, CORS_ORIGIN } = process.env;
@@ -19,7 +19,7 @@ const { PORT = 3000, CORS_ORIGIN } = process.env;
 app.use(requestLogger);
 
 mongoose
-  .connect((process.env.MONGO_URL = 'mongodb://localhost:27017/newsexplorer'), {
+  .connect((process.env.MONGO_URL = MONGO_URL_DEV), {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
